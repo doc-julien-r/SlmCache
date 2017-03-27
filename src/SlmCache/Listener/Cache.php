@@ -155,7 +155,7 @@ class Cache extends AbstractListenerAggregate
 
     protected function fromCache(MvcEvent $e, $match)
     {
-        $key    = $this->cache_prefix. $match['route'];
+        $key    = $this->getCacheKey($match['route']);
         $config = $match['config'];
         $cache  = $this->getCache($e);
 
@@ -173,7 +173,7 @@ class Cache extends AbstractListenerAggregate
 
     protected function storeCache(MvcEvent $e, $match)
     {
-        $key    = $this->cache_prefix. $match['route'];
+        $key    = $this->getCacheKey($match['route']);
         $config = $match['config'];
         $cache  = $this->getCache($e);
 
@@ -200,5 +200,14 @@ class Cache extends AbstractListenerAggregate
         }
 
         return $cache;
+    }
+
+    /**
+     * @param string $route
+     * @return string
+     */
+    protected function getCacheKey($route)
+    {
+        return $this->cache_prefix.sha1($route);
     }
 }
