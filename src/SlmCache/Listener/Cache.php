@@ -112,6 +112,7 @@ class Cache extends AbstractListenerAggregate
         }
 
         $route  = $match->getMatchedRouteName();
+        $routeParameters = $match->getParams();
         $config = $this->serviceLocator->get('Config');
         $routes = $config['slm_cache']['routes'];
 
@@ -147,7 +148,7 @@ class Cache extends AbstractListenerAggregate
             }
         }
 
-        $match  = array('route' => $route, 'config' => $config);
+        $match  = ['route' => $route, 'config' => $config, 'parameters' => $routeParameters];
         $this->match = $match;
 
         return $match;
@@ -155,7 +156,7 @@ class Cache extends AbstractListenerAggregate
 
     protected function fromCache(MvcEvent $e, $match)
     {
-        $key    = $this->getCacheKey($match['route']);
+        $key    = $this->getCacheKey($match);
         $config = $match['config'];
         $cache  = $this->getCache($e);
 
@@ -173,7 +174,7 @@ class Cache extends AbstractListenerAggregate
 
     protected function storeCache(MvcEvent $e, $match)
     {
-        $key    = $this->getCacheKey($match['route']);
+        $key    = $this->getCacheKey($match);
         $config = $match['config'];
         $cache  = $this->getCache($e);
 
@@ -203,11 +204,11 @@ class Cache extends AbstractListenerAggregate
     }
 
     /**
-     * @param string $route
+     * @param array $match Associative array corresponding to the matched route
      * @return string
      */
-    protected function getCacheKey($route)
+    protected function getCacheKey(array $match)
     {
-        return $this->cache_prefix.sha1($route);
+        return $this->cache_prefix.sha1(serialize($match));
     }
 }
