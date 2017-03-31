@@ -79,11 +79,13 @@ class Cache extends AbstractListenerAggregate
     public function matchRoute(MvcEvent $e)
     {
         $match = $this->match($e);
+
         if (null === $match) {
             return;
         }
 
         $result = $this->fromCache($e, $match);
+
         if ($result instanceof Response) {
             return $result;
         }
@@ -157,25 +159,24 @@ class Cache extends AbstractListenerAggregate
     protected function fromCache(MvcEvent $e, $match)
     {
         $key    = $this->getCacheKey($match);
-        $config = $match['config'];
         $cache  = $this->getCache($e);
 
         $response = $e->getResponse();
-        if ($result = $cache->getItem($key)) {
+
+        if (($result = $cache->getItem($key))) {
             $response->setContent($result);
             $response->getHeaders()->addHeaderLine('X-Slm-Cache', 'Fetch: Hit; route=' . $match['route']);
-
             $e->setParam('cached', true);
+
             return $response;
-        } else {
-            $response->getHeaders()->addHeaderLine('X-Slm-Cache', 'Fetch: Miss; route=' . $match['route']);
         }
+
+        $response->getHeaders()->addHeaderLine('X-Slm-Cache', 'Fetch: Miss; route=' . $match['route']);
     }
 
     protected function storeCache(MvcEvent $e, $match)
     {
         $key    = $this->getCacheKey($match);
-        $config = $match['config'];
         $cache  = $this->getCache($e);
 
         $response = $e->getResponse();
@@ -185,8 +186,7 @@ class Cache extends AbstractListenerAggregate
 
     protected function getCache(MvcEvent $e)
     {
-        $config = $this->serviceLocator->get('Config');
-        $config = $config['slm_cache']['cache'];
+        $config = $this->serviceLocator->get('Config')['slm_cache']['cache'];
 
         if (is_string($config)) {
             $cache = $this->serviceLocator->get($config);
