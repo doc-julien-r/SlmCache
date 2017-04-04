@@ -164,7 +164,11 @@ class Cache extends AbstractListenerAggregate
         $response = $e->getResponse();
 
         if (($result = $cache->getItem($key))) {
-            $response->setContent($result);
+            $response->setContent(
+                empty($this->serviceLocator->get('Config')['slm_cache']['use_compression'])
+                ? $result
+                : gzuncompress($result)
+            );
             $response->getHeaders()->addHeaderLine('X-Slm-Cache', 'Fetch: Hit; route=' . $match['route']);
             $e->setParam('cached', true);
 
@@ -181,6 +185,11 @@ class Cache extends AbstractListenerAggregate
 
         $response = $e->getResponse();
         $response->getHeaders()->addHeaderLine('X-Slm-Cache', 'Storage: Success; route=' . $match['route']);
+
+        if (!empty($this->serviceLocator->get('Config')['slm_cache']['use_compression'])) {
+            return $cache->setItem($key, gzcompress($response->getContent()));
+        }
+
         $cache->setItem($key, $response->getContent());
     }
 
