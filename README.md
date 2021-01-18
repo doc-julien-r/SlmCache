@@ -32,7 +32,7 @@ SlmCache works with a configured cache storage adapter and a list of routes whic
 ### Configure cache storage
 The cache can be configured in two ways. The first method uses the cache storage factory to instantiate a new cache instance. The second method let you point to a service in the service locator to fetch an existing cache service.
 
-In below example, all configuration inside `cache` will be injected into the `Zend\Cache\StorageFactory::factory()` method. This enables you to configure the adapter, all adapter options and if needed, plugins.
+In below example, all configuration inside `cache` will be injected into the `Laminas\Cache\StorageFactory::factory()` method. This enables you to configure the adapter, all adapter options and if needed, plugins.
 
 ```php
 'slm_cache' => array(

@@ -17,8 +17,13 @@
         }
     ],
     "require": {
-        "php": ">=5.3.3.",
-        "zendframework/zendframework": ">=2.0.0,<2.6.0"
+        "php": ">=7.0",
+        "laminas/laminas-modulemanager": "^2.5",
+        "laminas/laminas-eventmanager": "^2.5",
+        "laminas/laminas-mvc": "^2.5",
+        "laminas/laminas-http": "^2.5",
+        "laminas/laminas-servicemanager": "^2.5",
+        "laminas/laminas-cache": "^2.5"
     },
     "autoload": {
         "psr-0": {
