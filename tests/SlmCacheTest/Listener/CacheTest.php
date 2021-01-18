@@ -44,10 +44,10 @@ use PHPUnit_Framework_Assert;
 
 use SlmCache\Listener\Cache as CacheListener;
 
-use Zend\EventManager\EventManager;
-use Zend\ServiceManager\ServiceManager;
-use Zend\Mvc\MvcEvent;
-use Zend\Mvc\Router\RouteMatch;
+use Laminas\EventManager\EventManager;
+use Laminas\ServiceManager\ServiceManager;
+use Laminas\Mvc\MvcEvent;
+use Laminas\Mvc\Router\RouteMatch;
 
 class CacheTest extends TestCase
 {

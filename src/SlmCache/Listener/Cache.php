@@ -40,14 +40,14 @@
 
 namespace SlmCache\Listener;
 
-use Zend\EventManager\AbstractListenerAggregate;
-use Zend\EventManager\EventManagerInterface;
-use Zend\Mvc\MvcEvent;
-use Zend\Mvc\Router\RouteMatch;
-use Zend\Http\Response;
-use Zend\ServiceManager\ServiceLocatorInterface;
-use Zend\Cache\StorageFactory;
-use Zend\Cache\Storage\StorageInterface;
+use Laminas\EventManager\AbstractListenerAggregate;
+use Laminas\EventManager\EventManagerInterface;
+use Laminas\Mvc\MvcEvent;
+use Laminas\Mvc\Router\RouteMatch;
+use Laminas\Http\Response;
+use Laminas\ServiceManager\ServiceLocatorInterface;
+use Laminas\Cache\StorageFactory;
+use Laminas\Cache\Storage\StorageInterface;
 
 class Cache extends AbstractListenerAggregate
 {

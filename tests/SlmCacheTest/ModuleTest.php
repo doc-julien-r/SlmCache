@@ -55,7 +55,7 @@ class ModuleTest extends TestCase
     public function testModuleHasConfiguration()
     {
         $module  = new Module;
-        $feature = 'Zend\ModuleManager\Feature\ConfigProviderInterface';
+        $feature = 'Laminas\ModuleManager\Feature\ConfigProviderInterface';
 
         $this->assertInstanceOf($feature, $module);
     }
